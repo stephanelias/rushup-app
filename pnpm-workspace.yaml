@@ -1,0 +1,5 @@
+nodeLinker: hoisted
+
+# NativeWind v5 RC : lightningcss doit rester sur cette version (erreurs de désérialisation de global.css sinon).
+overrides:
+  lightningcss: 1.30.1

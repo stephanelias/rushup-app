@@ -1,0 +1,9 @@
+const { getDefaultConfig } = require('expo/metro-config');
+const { withNativewind } = require('nativewind/metro');
+
+const config = getDefaultConfig(__dirname);
+
+// Migrations Drizzle : les fichiers .sql sont importés comme chaînes (voir babel.config.js).
+config.resolver.sourceExts.push('sql');
+
+module.exports = withNativewind(config);
