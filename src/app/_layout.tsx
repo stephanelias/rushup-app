@@ -1,25 +1,30 @@
 import '@/global.css';
 
+import { useFonts } from 'expo-font';
 import { DarkTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { useDatabaseMigrations } from '@/db/migrate';
+import { fonts } from '@/ui/fonts';
 import { MigrationError } from '@/ui/migration-error';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const migrations = useDatabaseMigrations();
+  // Un échec de chargement des polices ne bloque pas l'app : le texte retombe sur la police système.
+  const [fontsLoaded, fontsError] = useFonts(fonts);
+  const ready = migrations.status !== 'pending' && (fontsLoaded || fontsError !== null);
 
   useEffect(() => {
-    if (migrations.status !== 'pending') {
+    if (ready) {
       SplashScreen.hide();
     }
-  }, [migrations.status]);
+  }, [ready]);
 
-  if (migrations.status === 'pending') {
+  if (!ready) {
     return null;
   }
 

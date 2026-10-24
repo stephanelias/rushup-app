@@ -39,32 +39,38 @@
   --radius-sheet: 20px;
   --radius-full: 9999px;
 
-  /* Styles de texte : taille, graisse, interligne (ratio du designer, multiplié par la taille). */
+  /* Polices : une famille par graisse (noms chargés dans src/ui/fonts.ts). Pas d'utilitaire de
+     graisse (`font-medium`…) : une graisse sur une police chargée retombe sur la police système
+     ou une graisse synthétique selon la plateforme. */
+  --font-*: initial;
+  --font-weight-*: initial;
+  --font-sans: 'Geist-Regular';
+  --font-sans-medium: 'Geist-Medium';
+  --font-sans-semibold: 'Geist-SemiBold';
+  --font-mono: 'GeistMono-Regular';
+  --font-mono-medium: 'GeistMono-Medium';
+
+  /* Styles de texte : taille et interligne (ratio du designer, multiplié par la taille).
+     La graisse vient de la police associée, à poser à côté :
+     screen-title, section-title → font-sans-semibold · body, caption → font-sans ·
+     label, tab-label → font-sans-medium · figure-large → font-mono-medium · figure → font-mono. */
   --text-*: initial;
   --text-screen-title: 26px;
   --text-screen-title--line-height: 1.2;
   --text-screen-title--letter-spacing: -0.26px;
-  --text-screen-title--font-weight: 600;
   --text-section-title: 20px;
   --text-section-title--line-height: 1.25;
-  --text-section-title--font-weight: 600;
   --text-body: 16px;
   --text-body--line-height: 1.45;
-  --text-body--font-weight: 400;
   --text-label: 14px;
   --text-label--line-height: 1.3;
-  --text-label--font-weight: 500;
   --text-caption: 12px;
   --text-caption--line-height: 1.3;
-  --text-caption--font-weight: 400;
   --text-tab-label: 11px;
-  --text-tab-label--font-weight: 500;
   --text-figure-large: 28px;
   --text-figure-large--line-height: 1.1;
-  --text-figure-large--font-weight: 500;
   --text-figure: 17px;
   --text-figure--line-height: 1.3;
-  --text-figure--font-weight: 400;
 }
 
 /* Base du rem pour react-native-css (14 px par défaut) : 1rem = 16 px, donc --spacing (0.25rem) = 4 px. */

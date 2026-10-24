@@ -4,10 +4,10 @@ import { Text, View } from 'react-native';
 export function MigrationError({ error }: { error: Error }) {
   return (
     <View className="flex-1 justify-center gap-3 bg-background px-screen">
-      <Text className="text-section-title text-error">
+      <Text className="font-sans-semibold text-section-title text-error">
         La base de données n&apos;a pas pu démarrer
       </Text>
-      <Text className="text-body text-text-secondary">{error.message}</Text>
+      <Text className="font-sans text-body text-text-secondary">{error.message}</Text>
     </View>
   );
 }
