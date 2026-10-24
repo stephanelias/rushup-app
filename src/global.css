@@ -24,8 +24,8 @@
   --color-transparent: transparent;
 
   /* Espacements : l'échelle du designer (4, 8, 12, 16, 20, 24, 32, 48) est un multiple de 4.
+     Le pas par défaut de Tailwind (0.25rem) vaut 4 px avec le rem à 16 px défini plus bas :
      p-1 = 4, p-2 = 8, p-3 = 12, p-4 = 16, p-5 = 20, p-6 = 24, p-8 = 32, p-12 = 48. */
-  --spacing: 4px;
   --spacing-screen: 20px;
   --spacing-touch: 44px;
   --spacing-primary-button: 60px;
@@ -39,30 +39,35 @@
   --radius-sheet: 20px;
   --radius-full: 9999px;
 
-  /* Styles de texte : taille, graisse, interligne (taille × ratio du designer, arrondi). */
+  /* Styles de texte : taille, graisse, interligne (ratio du designer, multiplié par la taille). */
   --text-*: initial;
   --text-screen-title: 26px;
-  --text-screen-title--line-height: 31px; /* 1.2 */
+  --text-screen-title--line-height: 1.2;
   --text-screen-title--letter-spacing: -0.26px;
   --text-screen-title--font-weight: 600;
   --text-section-title: 20px;
-  --text-section-title--line-height: 25px; /* 1.25 */
+  --text-section-title--line-height: 1.25;
   --text-section-title--font-weight: 600;
   --text-body: 16px;
-  --text-body--line-height: 23px; /* 1.45 */
+  --text-body--line-height: 1.45;
   --text-body--font-weight: 400;
   --text-label: 14px;
-  --text-label--line-height: 18px; /* 1.3 */
+  --text-label--line-height: 1.3;
   --text-label--font-weight: 500;
   --text-caption: 12px;
-  --text-caption--line-height: 16px; /* 1.3 */
+  --text-caption--line-height: 1.3;
   --text-caption--font-weight: 400;
   --text-tab-label: 11px;
   --text-tab-label--font-weight: 500;
   --text-figure-large: 28px;
-  --text-figure-large--line-height: 31px; /* 1.1 */
+  --text-figure-large--line-height: 1.1;
   --text-figure-large--font-weight: 500;
   --text-figure: 17px;
-  --text-figure--line-height: 22px; /* 1.3 */
+  --text-figure--line-height: 1.3;
   --text-figure--font-weight: 400;
+}
+
+/* Base du rem pour react-native-css (14 px par défaut) : 1rem = 16 px, donc --spacing (0.25rem) = 4 px. */
+:root {
+  font-size: 16px;
 }
