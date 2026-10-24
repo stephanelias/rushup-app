@@ -65,7 +65,7 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "doctor": "pnpm dlx expo-doctor",
-    "db:generate": "drizzle-kit generate",
+    "db:generate": "drizzle-kit generate && prettier --write drizzle/migrations.js",
     "db:check": "node --no-warnings scripts/check-migrations.ts",
     "prepare": "husky"
   },

@@ -25,14 +25,14 @@ Node ≥ 22.13 (`.nvmrc`), pnpm 10.
 
 Équivalents locaux des jobs de la CI (`.github/workflows/ci.yml`), à lancer avant de pousser :
 
-| Job CI                | Commande locale                                    |
-| --------------------- | -------------------------------------------------- |
-| Lint et format        | `pnpm lint` (ESLint + `prettier --check`)          |
-| Vérification de types | `pnpm typecheck`                                   |
-| Tests unitaires       | `pnpm test`                                        |
-| expo-doctor           | `pnpm doctor`                                      |
-| Migrations Drizzle    | `pnpm db:generate` (aucun fichier ne doit changer) |
-| Base vierge           | `pnpm db:check` (applique toutes les migrations)   |
+| Job CI               | Commande locale                                    |
+| -------------------- | -------------------------------------------------- |
+| `lint & format`      | `pnpm lint` (ESLint + `prettier --check`)          |
+| `type_check`         | `pnpm typecheck`                                   |
+| `test_unit`          | `pnpm test`                                        |
+| `expo-doctor`        | `pnpm doctor`                                      |
+| `drizzle_migrations` | `pnpm db:generate` (aucun fichier ne doit changer) |
+| `drizzle_migrations` | `pnpm db:check` (applique toutes les migrations)   |
 
 Le pre-commit (husky + lint-staged) lance ESLint et Prettier sur les fichiers indexés uniquement.
 

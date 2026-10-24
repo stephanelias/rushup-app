@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint et format
+    name: lint & format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
       - run: pnpm lint
 
   typecheck:
-    name: Vérification des types
+    name: type_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
       - run: pnpm typecheck
 
   test:
-    name: Tests unitaires
+    name: test_unit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
       - run: pnpm doctor
 
   migrations:
-    name: Migrations Drizzle
+    name: drizzle_migrations
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
