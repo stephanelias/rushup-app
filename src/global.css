@@ -1,9 +1,68 @@
-:root {
-  --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+@import 'nativewind/theme';
+
+/*
+ * Tokens de design, repris de l'export du designer (Notion › RushUP ›
+ * « Questions pour le design — avant développement », planche « Base visuelle v0 »).
+ * Les palettes et rayons par défaut de Tailwind sont retirés : seuls ces tokens existent.
+ */
+@theme {
+  /* Couleurs, nommées par rôle. Thème sombre uniquement au MVP. */
+  --color-*: initial;
+  --color-background: #111210;
+  --color-surface: #1c1d1a;
+  --color-surface-raised: #252622;
+  --color-border: #2a2c28;
+  --color-text: #ecede8;
+  --color-text-secondary: #8e9089;
+  --color-disabled: #5c5e58;
+  --color-accent: #d4f53c;
+  --color-on-accent: #111210;
+  --color-error: #ff6b5e;
+  --color-transparent: transparent;
+
+  /* Espacements : l'échelle du designer (4, 8, 12, 16, 20, 24, 32, 48) est un multiple de 4.
+     p-1 = 4, p-2 = 8, p-3 = 12, p-4 = 16, p-5 = 20, p-6 = 24, p-8 = 32, p-12 = 48. */
+  --spacing: 4px;
+  --spacing-screen: 20px;
+  --spacing-touch: 44px;
+  --spacing-primary-button: 60px;
+
+  /* Rayons */
+  --radius-*: initial;
+  --radius-sm: 10px;
+  --radius-button: 12px;
+  --radius-card: 14px;
+  --radius-primary: 16px;
+  --radius-sheet: 20px;
+  --radius-full: 9999px;
+
+  /* Styles de texte : taille, graisse, interligne (taille × ratio du designer, arrondi). */
+  --text-*: initial;
+  --text-screen-title: 26px;
+  --text-screen-title--line-height: 31px; /* 1.2 */
+  --text-screen-title--letter-spacing: -0.26px;
+  --text-screen-title--font-weight: 600;
+  --text-section-title: 20px;
+  --text-section-title--line-height: 25px; /* 1.25 */
+  --text-section-title--font-weight: 600;
+  --text-body: 16px;
+  --text-body--line-height: 23px; /* 1.45 */
+  --text-body--font-weight: 400;
+  --text-label: 14px;
+  --text-label--line-height: 18px; /* 1.3 */
+  --text-label--font-weight: 500;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px; /* 1.3 */
+  --text-caption--font-weight: 400;
+  --text-tab-label: 11px;
+  --text-tab-label--font-weight: 500;
+  --text-figure-large: 28px;
+  --text-figure-large--line-height: 31px; /* 1.1 */
+  --text-figure-large--font-weight: 500;
+  --text-figure: 17px;
+  --text-figure--line-height: 22px; /* 1.3 */
+  --text-figure--font-weight: 400;
 }

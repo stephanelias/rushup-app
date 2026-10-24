@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint et format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm lint
+
+  typecheck:
+    name: Vérification des types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm typecheck
+
+  test:
+    name: Tests unitaires
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm test --ci
+
+  doctor:
+    name: expo-doctor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm doctor
+
+  migrations:
+    name: Migrations Drizzle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+
+      - name: Schéma modifié sans migration
+        run: |
+          pnpm db:generate
+          git add --intent-to-add drizzle
+          if ! git diff --exit-code -- drizzle; then
+            echo "::error::Le schéma a changé sans migration. Lancer 'pnpm db:generate' et committer le résultat."
+            exit 1
+          fi
+
+      - name: Migration existante modifiée
+        if: github.event_name == 'pull_request'
+        run: |
+          # Seul l'index migrations.js évolue quand on ajoute une migration ;
+          # un dossier de migration déjà présent sur main ne doit jamais changer.
+          changed=$(git diff --name-only --diff-filter=MDR "origin/${{ github.base_ref }}...HEAD" -- 'drizzle/*/')
+          if [ -n "$changed" ]; then
+            echo "::error::Migrations déjà présentes sur ${{ github.base_ref }} modifiées ou supprimées :"
+            echo "$changed"
+            exit 1
+          fi
+
+      - name: Application sur une base vierge
+        run: pnpm db:check
