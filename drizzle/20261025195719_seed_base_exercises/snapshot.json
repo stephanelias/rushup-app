@@ -1,0 +1,209 @@
+{
+  "id": "fd65df8b-5979-4652-a097-1fc9b7479b1a",
+  "prevIds": [
+    "79f27885-9eab-4b63-b7df-d2b67f7d6a13"
+  ],
+  "version": "7",
+  "dialect": "sqlite",
+  "ddl": [
+    {
+      "name": "exercises",
+      "entityType": "tables"
+    },
+    {
+      "name": "smoke_checks",
+      "entityType": "tables"
+    },
+    {
+      "table": "exercises",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "name",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "name_normalized",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "type",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "muscle_group",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "origin",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "hidden_at",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "archived_at",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "created_at",
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "updated_at",
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "smoke_checks",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "smoke_checks",
+      "name": "label",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "smoke_checks",
+      "name": "created_at",
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "smoke_checks",
+      "name": "updated_at",
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "exercises",
+      "name": "exercises_name_normalized_unique",
+      "columns": [
+        {
+          "value": "name_normalized",
+          "isExpression": false
+        }
+      ],
+      "isUnique": true,
+      "where": "\"exercises\".\"archived_at\" IS NULL",
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "exercises",
+      "name": "exercises_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "smoke_checks",
+      "name": "smoke_checks_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "exercises",
+      "name": "exercises_type_check",
+      "value": "\"type\" IN ('strength', 'cardio')",
+      "entityType": "checks"
+    },
+    {
+      "table": "exercises",
+      "name": "exercises_origin_check",
+      "value": "\"origin\" IN ('base', 'custom')",
+      "entityType": "checks"
+    },
+    {
+      "table": "exercises",
+      "name": "exercises_muscle_group_check",
+      "value": "(\"type\" = 'strength' AND \"muscle_group\" IS NOT NULL AND \"muscle_group\" IN ('chest', 'back', 'shoulders', 'biceps', 'triceps', 'legs', 'abs')) OR (\"type\" = 'cardio' AND \"muscle_group\" IS NULL)",
+      "entityType": "checks"
+    }
+  ],
+  "renames": []
+}
