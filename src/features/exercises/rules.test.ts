@@ -35,39 +35,39 @@ describe('findDuplicate', () => {
     exercise('Squat barre', { origin: 'base', hiddenAt: new Date() }),
   ];
 
-  it('trouve un doublon sans tenir compte des majuscules ni des accents', () => {
+  it('finds a duplicate regardless of case and accents', () => {
     expect(findDuplicate('developpe COUCHE  barre ', library)?.name).toBe('Développé couché barre');
   });
 
-  it('bloque aussi le nom d’un exercice masqué', () => {
+  it('also blocks the name of a hidden exercise', () => {
     expect(findDuplicate('squat barre', library)?.name).toBe('Squat barre');
   });
 
-  it('ignore les exercices archivés', () => {
+  it('ignores archived exercises', () => {
     expect(findDuplicate('Curl araignée', library)).toBeUndefined();
   });
 
-  it('ignore l’exercice en cours de modification', () => {
+  it('ignores the exercise being edited', () => {
     expect(findDuplicate('Squat Barre', library, 'Squat barre')).toBeUndefined();
   });
 
-  it('ne signale rien pour un nom vide ou libre', () => {
+  it('reports nothing for a blank or available name', () => {
     expect(findDuplicate('  ', library)).toBeUndefined();
     expect(findDuplicate('Développé couché prise large', library)).toBeUndefined();
   });
 });
 
 describe('isExerciseUsed / isTypeLocked', () => {
-  it('un exercice jamais utilisé garde son type modifiable', () => {
+  it('keeps the type editable for a never-used exercise', () => {
     expect(isExerciseUsed(UNUSED)).toBe(false);
     expect(isTypeLocked(UNUSED)).toBe(false);
   });
 
   it.each<[string, ExerciseUsage]>([
-    ['dans un programme', { ...UNUSED, workouts: [workout('Upper A', 'Upper / Lower')] }],
-    ['dans une séance passée', { ...UNUSED, pastSessionCount: 1 }],
-    ['dans une séance en cours', { ...UNUSED, inProgressSessionCount: 1 }],
-  ])('verrouille le type dès qu’il est utilisé %s', (_, usage) => {
+    ['in a program', { ...UNUSED, workouts: [workout('Upper A', 'Upper / Lower')] }],
+    ['in a past session', { ...UNUSED, pastSessionCount: 1 }],
+    ['in an in-progress session', { ...UNUSED, inProgressSessionCount: 1 }],
+  ])('locks the type once used %s', (_, usage) => {
     expect(isExerciseUsed(usage)).toBe(true);
     expect(isTypeLocked(usage)).toBe(true);
   });
@@ -76,15 +76,15 @@ describe('isExerciseUsed / isTypeLocked', () => {
 describe('planExerciseDeletion', () => {
   const custom = exercise('Curl araignée');
 
-  it('refuse un exercice de la base', () => {
+  it('rejects a base exercise', () => {
     expect(() => planExerciseDeletion(exercise('Dips', { origin: 'base' }), UNUSED)).toThrow();
   });
 
-  it('supprime définitivement un exercice jamais utilisé', () => {
+  it('permanently deletes a never-used exercise', () => {
     expect(planExerciseDeletion(custom, UNUSED)).toEqual({ mode: 'delete' });
   });
 
-  it('archive un exercice présent seulement dans l’historique', () => {
+  it('archives an exercise used only in history', () => {
     expect(planExerciseDeletion(custom, { ...UNUSED, pastSessionCount: 4 })).toEqual({
       mode: 'archive',
       workouts: [],
@@ -93,13 +93,13 @@ describe('planExerciseDeletion', () => {
     });
   });
 
-  it('archive un exercice présent seulement dans une séance en cours', () => {
+  it('archives an exercise used only in an in-progress session', () => {
     expect(planExerciseDeletion(custom, { ...UNUSED, inProgressSessionCount: 1 }).mode).toBe(
       'archive',
     );
   });
 
-  it('liste les séances touchées et signale le programme actif', () => {
+  it('lists affected workouts and flags the active program', () => {
     const plan = planExerciseDeletion(custom, {
       workouts: [workout('Bras', 'Full body'), workout('Upper A', 'Upper / Lower', true)],
       pastSessionCount: 0,
@@ -113,7 +113,7 @@ describe('planExerciseDeletion', () => {
     });
   });
 
-  it('sans programme actif, pas d’alerte', () => {
+  it('does not flag an active program when there is none', () => {
     const plan = planExerciseDeletion(custom, {
       ...UNUSED,
       workouts: [workout('Bras', 'Full body')],
@@ -123,7 +123,7 @@ describe('planExerciseDeletion', () => {
 });
 
 describe('sortWorkoutUsages', () => {
-  it('programme actif d’abord, puis ordre alphabétique français, chaque séance une fois', () => {
+  it('puts the active program first, then French alphabetical order, each workout once', () => {
     const upperA = workout('Upper A', 'Upper / Lower', true);
     const sorted = sortWorkoutUsages([
       workout('Jambes', 'Zone'),

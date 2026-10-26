@@ -1,22 +1,22 @@
 import { normalizeName } from './normalize';
 
 describe('normalizeName', () => {
-  it('ignore les majuscules et les accents', () => {
+  it('ignores case and accents', () => {
     expect(normalizeName('Développé couché barre')).toBe('developpe couche barre');
     expect(normalizeName('ÉLÉVATIONS LATÉRALES')).toBe('elevations laterales');
     expect(normalizeName('Écarté poulie')).toBe(normalizeName('ecarte POULIE'));
   });
 
-  it('nettoie les espaces', () => {
+  it('cleans up whitespace', () => {
     expect(normalizeName('  Curl   marteau ')).toBe('curl marteau');
     expect(normalizeName('Curl\tmarteau')).toBe('curl marteau');
   });
 
-  it('garde la ponctuation', () => {
+  it('keeps punctuation', () => {
     expect(normalizeName("Vélo d'appartement")).toBe("velo d'appartement");
   });
 
-  it('renvoie une chaîne vide pour un nom vide', () => {
+  it('returns an empty string for a blank name', () => {
     expect(normalizeName('   ')).toBe('');
   });
 });
