@@ -37,6 +37,15 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="session/[id]" options={{ gestureEnabled: false }} />
+          <Stack.Screen
+            name="exercise/[id]"
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: 'fitToContents',
+              sheetGrabberVisible: true,
+            }}
+          />
+          <Stack.Screen name="exercise/new" />
         </Stack>
       )}
     </ThemeProvider>
