@@ -1,17 +1,15 @@
 import type { BottomTabBarProps } from 'expo-router/tabs';
 import type { LucideIcon } from 'lucide-react-native';
-import { styled } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
 
+import { styledIcon } from './icon';
+
 /**
- * Icône d'onglet : 24 px, trait 1,75 (2 si actif). `className` ne s'applique pas aux composants
- * tiers : `styled` reporte la couleur du token sur la prop `color` de l'icône lucide.
+ * Icône d'onglet : 24 px, trait 1,75 (2 si actif).
  * `wrapperClassName` sert à orienter une icône (ex. l'haltère, horizontal sur la maquette).
  */
 export function tabIcon(Icon: LucideIcon, wrapperClassName?: string) {
-  const StyledIcon = styled(Icon, {
-    className: { target: false, nativeStyleMapping: { color: 'color' } },
-  });
+  const StyledIcon = styledIcon(Icon);
 
   return function TabIcon({ focused }: { focused: boolean }) {
     return (
