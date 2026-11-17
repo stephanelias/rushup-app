@@ -8,7 +8,7 @@ import { EXERCISE_ORIGIN_LABELS, type Exercise } from './model';
 import { hideExercise, unhideExercise, useExercise, useExerciseUsage } from './queries';
 import { exerciseSubtitle, sheetActions } from './sheet';
 
-/** Exercise sheet, over the library: details, « Utilisé dans » and the actions for its origin. */
+/** Exercise sheet, over the library: details, usage and the actions for its origin. */
 export function ExerciseSheet({ id }: { id: string }) {
   const { exercise, error, loaded } = useExercise(id);
   const usage = useExerciseUsage(id);

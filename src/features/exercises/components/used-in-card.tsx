@@ -10,8 +10,8 @@ import { pastSessionsUnit } from '../sheet';
 const Chevron = styledIcon(ChevronRight);
 
 /**
- * « Utilisé dans »: one line per program workout (Programme › Séance), active program first,
- * then the past session count.
+ * Where the exercise is used: one line per program workout (program › workout), active program
+ * first, then the past session count.
  */
 export function UsedInCard({ usage }: { usage: ExerciseUsage }) {
   const workouts = sortWorkoutUsages(usage.workouts);
