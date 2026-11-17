@@ -1,13 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Text, View } from 'react-native';
 
-// Placeholder: the exercise sheet has its own ticket.
-export default function ExerciseSheet() {
+import { ExerciseSheet } from '@/features/exercises/exercise-sheet';
+
+export default function ExerciseSheetScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return (
-    <View className="gap-2 bg-surface-raised px-screen pt-8 pb-safe-offset-6">
-      <Text className="font-sans-semibold text-section-title text-text">Fiche exercice</Text>
-      <Text className="font-sans text-caption text-text-secondary">{id}</Text>
-    </View>
-  );
+  return <ExerciseSheet id={id} />;
 }
