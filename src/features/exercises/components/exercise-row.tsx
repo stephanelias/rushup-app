@@ -6,6 +6,7 @@ import { styledIcon } from '@/ui/icon';
 import { EXERCISE_FILTER_LABELS, groupKeyOf, type ExerciseListItem } from '../filter';
 import { EXERCISE_ORIGIN_LABELS } from '../model';
 import { HighlightedName } from './highlighted-name';
+import { Tag } from './tag';
 
 const Chevron = styledIcon(ChevronRight);
 
@@ -31,13 +32,7 @@ export function ExerciseRow({ item: { exercise, match }, onPress }: ExerciseRowP
           match={match}
           className="shrink font-sans-medium text-body text-text"
         />
-        {isCustom ? (
-          <View className="rounded-sm border border-border px-1.5">
-            <Text className="font-sans text-caption text-text-secondary">
-              {EXERCISE_ORIGIN_LABELS.custom}
-            </Text>
-          </View>
-        ) : null}
+        {isCustom ? <Tag label={EXERCISE_ORIGIN_LABELS.custom} /> : null}
       </View>
       <Chevron size={16} strokeWidth={1.75} className="text-text-secondary" />
     </Pressable>
@@ -46,14 +41,26 @@ export function ExerciseRow({ item: { exercise, match }, onPress }: ExerciseRowP
 
 type HiddenExerciseRowProps = {
   item: ExerciseListItem;
+  onPress: () => void;
   onUnhide: () => void;
 };
 
-/** Hidden exercise, greyed out, with its group under the name and a « Réafficher » button. */
-export function HiddenExerciseRow({ item: { exercise, match }, onUnhide }: HiddenExerciseRowProps) {
+/**
+ * Hidden exercise, greyed out, with its group under the name and a « Réafficher » button.
+ * The name opens the sheet. Sibling pressables, not nested: a screen reader reaches both.
+ */
+export function HiddenExerciseRow({
+  item: { exercise, match },
+  onPress,
+  onUnhide,
+}: HiddenExerciseRowProps) {
   return (
-    <View className="min-h-touch flex-row items-center gap-3 border-b border-border py-2">
-      <View className="flex-1">
+    <View className="min-h-touch flex-row items-center gap-3 border-b border-border">
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${exercise.name}, masqué`}
+        onPress={onPress}
+        className="flex-1 py-2 active:opacity-60">
         <HighlightedName
           name={exercise.name}
           match={match}
@@ -62,7 +69,7 @@ export function HiddenExerciseRow({ item: { exercise, match }, onUnhide }: Hidde
         <Text className="font-sans text-caption text-text-secondary">
           {EXERCISE_FILTER_LABELS[groupKeyOf(exercise)]}
         </Text>
-      </View>
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`Réafficher ${exercise.name}`}

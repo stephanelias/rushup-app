@@ -1,10 +1,10 @@
-import { eq, isNull } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 import { useLiveQuery } from 'drizzle-orm/expo-sqlite';
 
 import { db } from '@/db/client';
 import { exercises } from '@/db/schema';
 
-import type { Exercise } from './model';
+import type { Exercise, ExerciseUsage } from './model';
 
 const exerciseColumns = {
   id: exercises.id,
@@ -43,6 +43,34 @@ export function useLibraryExercises() {
     db.select(exerciseColumns).from(exercises).where(isNull(exercises.archivedAt)),
   );
   return { exercises: data.map(toExercise), error, loaded: updatedAt !== undefined };
+}
+
+/** One exercise, refreshed after every write (hide, unhide…). `undefined` once loaded: not found. */
+export function useExercise(id: string) {
+  const { data, error, updatedAt } = useLiveQuery(
+    db.select(exerciseColumns).from(exercises).where(eq(exercises.id, id)),
+    [id],
+  );
+  const row = data.at(0);
+  return { exercise: row ? toExercise(row) : undefined, error, loaded: updatedAt !== undefined };
+}
+
+const NO_USAGE: ExerciseUsage = { workouts: [], pastSessionCount: 0, inProgressSessionCount: 0 };
+
+/**
+ * Where the exercise is used. Programs and sessions don't exist yet: the usage stays empty until
+ * their tables land, then this becomes a live query on them.
+ */
+export function useExerciseUsage(_id: string): ExerciseUsage {
+  return NO_USAGE;
+}
+
+/** Base exercises only: a custom exercise is deleted or archived, never hidden. */
+export async function hideExercise(id: string) {
+  await db
+    .update(exercises)
+    .set({ hiddenAt: new Date() })
+    .where(and(eq(exercises.id, id), eq(exercises.origin, 'base')));
 }
 
 export async function unhideExercise(id: string) {

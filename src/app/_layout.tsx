@@ -47,6 +47,7 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen name="exercise/new" />
+          <Stack.Screen name="exercise/[id]/edit" />
         </Stack>
       )}
     </ThemeProvider>

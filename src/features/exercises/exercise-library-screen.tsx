@@ -117,7 +117,13 @@ export function ExerciseLibraryScreen() {
       case 'exercise':
         return <ExerciseRow item={row.item} onPress={() => openExercise(row.item.exercise.id)} />;
       case 'hidden':
-        return <HiddenExerciseRow item={row.item} onUnhide={() => handleUnhide(row.item)} />;
+        return (
+          <HiddenExerciseRow
+            item={row.item}
+            onPress={() => openExercise(row.item.exercise.id)}
+            onUnhide={() => handleUnhide(row.item)}
+          />
+        );
     }
   }
 
