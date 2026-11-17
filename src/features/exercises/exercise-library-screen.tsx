@@ -31,8 +31,8 @@ type Row =
   | { kind: 'hidden'; key: string; item: ExerciseListItem };
 
 /**
- * Lignes de la liste : le nombre de résultats pendant une recherche, les groupes avec leur en-tête
- * (« Tous » seulement), puis les masqués si affichés.
+ * List rows: the result count while searching, the groups with their header (« Tous » only),
+ * then the hidden exercises when shown.
  */
 function toRows(list: ExerciseList, filter: ExerciseFilter, query: string, showHidden: boolean) {
   const rows: Row[] = [];
@@ -66,7 +66,7 @@ function toRows(list: ExerciseList, filter: ExerciseFilter, query: string, showH
   return rows;
 }
 
-/** Onglet Exercices : bibliothèque, recherche, filtre par groupe et exercices masqués. */
+/** Exercises tab: library, search, group filter and hidden exercises. */
 export function ExerciseLibraryScreen() {
   const router = useRouter();
   const { exercises, error, loaded } = useLibraryExercises();
@@ -208,7 +208,7 @@ export function ExerciseLibraryScreen() {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           className="flex-1"
-          // Filtre sans recherche : ni nombre de résultats ni en-tête de groupe pour décoller la liste des pastilles.
+          // Filter without search: no result count or group header to space the list from the chips.
           contentContainerClassName={`px-screen pb-6 ${filter !== 'all' && !hasQuery ? 'pt-3' : ''}`}
         />
       )}

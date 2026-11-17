@@ -19,7 +19,7 @@ const exerciseColumns = {
 
 type ExerciseRow = Pick<typeof exercises.$inferSelect, keyof typeof exerciseColumns>;
 
-/** Ligne de la table → union discriminée. La contrainte CHECK garantit le couple type / groupe. */
+/** Table row → discriminated union. The CHECK constraint guarantees the type / group pair. */
 function toExercise(row: ExerciseRow): Exercise {
   const common = {
     id: row.id,
@@ -35,8 +35,8 @@ function toExercise(row: ExerciseRow): Exercise {
 }
 
 /**
- * Bibliothèque : tous les exercices non archivés, masqués compris. Filtre, recherche et tri se font
- * en mémoire (`buildExerciseList`). La liste se rafraîchit seule après chaque écriture.
+ * Library: all non-archived exercises, hidden ones included. Filtering, search and sorting happen
+ * in memory (`buildExerciseList`). The list refreshes itself after every write.
  */
 export function useLibraryExercises() {
   const { data, error, updatedAt } = useLiveQuery(

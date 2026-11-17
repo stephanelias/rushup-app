@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
 
-// Provisoire : la fiche exercice fait l'objet de son propre ticket.
+// Placeholder: the exercise sheet has its own ticket.
 export default function ExerciseSheet() {
   const { id } = useLocalSearchParams<{ id: string }>();
   return (

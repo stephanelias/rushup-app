@@ -8,8 +8,8 @@ type Props = {
 };
 
 /**
- * Rangée unique de pastilles, une sélection à la fois. La pastille sélectionnée est en fond clair :
- * l'accent n'est pas utilisé pour une sélection.
+ * Single row of chips, one selection at a time. The selected chip has a light background:
+ * the accent color is never used for a selection.
  */
 export function FilterChips({ value, onChange }: Props) {
   return (
@@ -17,7 +17,7 @@ export function FilterChips({ value, onChange }: Props) {
       horizontal
       showsHorizontalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
-      // Sans shrink-0, la liste en dessous écrase la rangée et coupe les pastilles.
+      // Without shrink-0, the list below squeezes the row and clips the chips.
       className="shrink-0 grow-0"
       contentContainerClassName="gap-2 px-screen py-1">
       {EXERCISE_FILTERS.map((filter) => {

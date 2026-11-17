@@ -8,7 +8,7 @@ type Props = {
   className: string;
 };
 
-/** Nom d'exercice avec le texte cherché en accent. Le texte passe à la ligne, jamais tronqué. */
+/** Exercise name with the searched text in the accent color. Wraps, never truncates. */
 export function HighlightedName({ name, match, className }: Props) {
   if (match.end <= match.start) {
     return <Text className={className}>{name}</Text>;

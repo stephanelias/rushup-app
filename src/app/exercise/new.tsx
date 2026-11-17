@@ -4,7 +4,7 @@ import { Pressable, Text } from 'react-native';
 import type { ExerciseCreationParams } from '@/features/exercises/filter';
 import { PlaceholderScreen } from '@/features/navigation/placeholder-screen';
 
-// Provisoire : le formulaire de création fait l'objet de son propre ticket.
+// Placeholder: the creation form has its own ticket.
 export default function NewExerciseScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<ExerciseCreationParams>();

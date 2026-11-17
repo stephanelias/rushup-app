@@ -14,7 +14,7 @@ type ExerciseRowProps = {
   onPress: () => void;
 };
 
-/** Ligne de la bibliothèque : nom, étiquette « Perso » pour un exercice perso, chevron vers la fiche. */
+/** Library row: name, « Perso » tag for a custom exercise, chevron to the exercise sheet. */
 export function ExerciseRow({ item: { exercise, match }, onPress }: ExerciseRowProps) {
   const isCustom = exercise.origin === 'custom';
   return (
@@ -49,7 +49,7 @@ type HiddenExerciseRowProps = {
   onUnhide: () => void;
 };
 
-/** Exercice masqué, grisé, avec son groupe sous le nom et le bouton « Réafficher ». */
+/** Hidden exercise, greyed out, with its group under the name and a « Réafficher » button. */
 export function HiddenExerciseRow({ item: { exercise, match }, onUnhide }: HiddenExerciseRowProps) {
   return (
     <View className="min-h-touch flex-row items-center gap-3 border-b border-border py-2">

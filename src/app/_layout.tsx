@@ -37,6 +37,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="session/[id]" options={{ gestureEnabled: false }} />
+          {/* Native bottom sheet sized to its content (the "used in" list varies), with a grab handle. */}
           <Stack.Screen
             name="exercise/[id]"
             options={{

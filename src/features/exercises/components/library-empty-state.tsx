@@ -11,11 +11,11 @@ type Props = {
   subtitle?: string;
   createLabel: string;
   onCreate: () => void;
-  /** Absent s'il n'y a aucun exercice masqué à montrer. */
+  /** Omitted when there is no hidden exercise to show. */
   showHidden?: { label: string; onPress: () => void };
 };
 
-/** Aucun résultat : propose de créer l'exercice, et de chercher aussi dans les masqués. */
+/** No results: offers to create the exercise and to search hidden exercises too. */
 export function LibraryEmptyState({ title, subtitle, createLabel, onCreate, showHidden }: Props) {
   return (
     <View className="flex-1 items-center justify-center gap-3 px-screen pb-12">

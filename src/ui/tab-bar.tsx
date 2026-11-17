@@ -5,8 +5,8 @@ import { Pressable, Text, View } from 'react-native';
 import { styledIcon } from './icon';
 
 /**
- * Icône d'onglet : 24 px, trait 1,75 (2 si actif).
- * `wrapperClassName` sert à orienter une icône (ex. l'haltère, horizontal sur la maquette).
+ * Tab icon: 24 px, stroke 1.75 (2 when active).
+ * `wrapperClassName` orients an icon (e.g. the dumbbell, horizontal in the mockup).
  */
 export function tabIcon(Icon: LucideIcon, wrapperClassName?: string) {
   const StyledIcon = styledIcon(Icon);

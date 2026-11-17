@@ -11,10 +11,10 @@ const collator = new Intl.Collator('fr');
 const COMBINING_MARKS = /[̀-ͯ]/g;
 const WHITESPACE = /\s/;
 
-/** Filtre à pastilles de la liste : une seule sélection à la fois. Un groupe implique la muscu. */
+/** Chip filter of the list: one selection at a time. A muscle group implies strength. */
 export type ExerciseFilter = 'all' | MuscleGroup | 'cardio';
 
-/** Groupe d'affichage d'un exercice : son groupe musculaire en muscu, « Cardio » sinon. */
+/** Display group of an exercise: its muscle group for strength, « Cardio » otherwise. */
 export type ExerciseGroupKey = MuscleGroup | 'cardio';
 
 export const EXERCISE_FILTERS: readonly ExerciseFilter[] = ['all', ...MUSCLE_GROUP_CODES, 'cardio'];
@@ -31,21 +31,21 @@ export function groupKeyOf(exercise: Exercise): ExerciseGroupKey {
   return exercise.type === 'cardio' ? 'cardio' : exercise.muscleGroup;
 }
 
-/** Plage du texte trouvé, en positions du nom affiché (`name.slice(start, end)`). Vide sans recherche. */
+/** Matched range, as positions in the displayed name (`name.slice(start, end)`). Empty without a search. */
 export type MatchRange = { start: number; end: number };
 
 /**
- * Cherche `query` dans `name` sans tenir compte des majuscules ni des accents, avec la même
- * normalisation que `normalizeName`. Le nom est normalisé caractère par caractère pour garder la
- * correspondance des positions : le surlignage tombe sur le texte affiché.
- * Une recherche vide correspond à tout, avec une plage vide.
+ * Finds `query` in `name`, ignoring case and accents, with the same normalization as
+ * `normalizeName`. The name is normalized character by character to keep track of positions,
+ * so the highlight lands on the displayed text.
+ * A blank query matches everything, with an empty range.
  */
 export function findMatch(name: string, query: string): MatchRange | null {
   const normalizedQuery = normalizeName(query);
   if (normalizedQuery === '') return { start: 0, end: 0 };
 
   let normalized = '';
-  // Pour chaque caractère de `normalized` : sa plage dans `name`.
+  // For each character of `normalized`: its range in `name`.
   const ranges: MatchRange[] = [];
   let offset = 0;
   for (const char of name) {
@@ -55,7 +55,7 @@ export function findMatch(name: string, query: string): MatchRange | null {
       ? ' '
       : char.normalize('NFD').replace(COMBINING_MARKS, '').toLowerCase();
     if (piece === '') {
-      // Accent décomposé : il rejoint la lettre qui le précède.
+      // Decomposed accent: it joins the preceding letter.
       const previous = ranges.at(-1);
       if (previous) previous.end = offset;
       continue;
@@ -77,16 +77,16 @@ export type ExerciseListItem = { exercise: Exercise; match: MatchRange };
 export type ExerciseGroup = { key: ExerciseGroupKey; items: ExerciseListItem[] };
 
 export type ExerciseList = {
-  /** Avec « Tous » : un groupe par groupe musculaire non vide, puis Cardio. Sinon : le groupe filtré. */
+  /** With « Tous »: one group per non-empty muscle group, then Cardio. Otherwise: the filtered group. */
   groups: ExerciseGroup[];
   resultCount: number;
-  /** Exercices masqués qui correspondent au filtre et à la recherche. */
+  /** Hidden exercises matching the filter and the search. */
   hidden: ExerciseListItem[];
 };
 
 /**
- * Liste de la bibliothèque : exercices non archivés qui correspondent au filtre et à la recherche,
- * triés par ordre alphabétique français, masqués à part.
+ * Library list: non-archived exercises matching the filter and the search, sorted in French
+ * alphabetical order, with hidden exercises set apart.
  */
 export function buildExerciseList(
   exercises: readonly Exercise[],
@@ -121,7 +121,7 @@ function plural(count: number, singular: string, pluralForm: string) {
   return `${count} ${count === 1 ? singular : pluralForm}`;
 }
 
-/** « 7 résultats dans Biceps », ou « 7 résultats » avec « Tous ». */
+/** « 7 résultats dans Biceps », or « 7 résultats » with « Tous ». */
 export function resultSummary(count: number, filter: ExerciseFilter): string {
   const results = plural(count, 'résultat', 'résultats');
   return filter === 'all' ? results : `${results} dans ${EXERCISE_FILTER_LABELS[filter]}`;
@@ -132,7 +132,7 @@ export function hiddenCountLabel(count: number): string {
   return plural(count, 'exercice masqué', 'exercices masqués');
 }
 
-/** Nom proposé à la création depuis une recherche sans résultat : « pull  over » → « Pull over ». */
+/** Name suggested for creation after a search with no results: « pull  over » → « Pull over ». */
 export function toExerciseName(query: string): string {
   const name = query.replace(/\s+/g, ' ').trim();
   return name.charAt(0).toLocaleUpperCase('fr') + name.slice(1);
@@ -144,7 +144,7 @@ export type ExerciseCreationParams = {
   muscleGroup?: MuscleGroup;
 };
 
-/** Paramètres de la création : nom cherché, type et groupe déduits du filtre actif. */
+/** Creation params: searched name, type and group derived from the active filter. */
 export function creationParams(filter: ExerciseFilter, name?: string): ExerciseCreationParams {
   const params: ExerciseCreationParams = name ? { name } : {};
   if (filter === 'cardio') return { ...params, type: 'cardio' };
