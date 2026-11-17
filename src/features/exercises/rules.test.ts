@@ -1,6 +1,8 @@
 import type { Exercise, ExerciseUsage, WorkoutUsage } from './model';
 import { normalizeName } from './normalize';
 import {
+  checkExerciseUpdate,
+  ExerciseWriteError,
   findDuplicate,
   isExerciseUsed,
   isTypeLocked,
@@ -138,5 +140,64 @@ describe('sortWorkoutUsages', () => {
       'Full body/Épaules',
       'Zone/Jambes',
     ]);
+  });
+});
+
+describe('checkExerciseUpdate', () => {
+  const custom = exercise('Curl araignée', { type: 'strength', muscleGroup: 'biceps' });
+  const used: ExerciseUsage = { ...UNUSED, pastSessionCount: 2 };
+
+  function reasonOf(check: () => void) {
+    try {
+      check();
+    } catch (error) {
+      return error instanceof ExerciseWriteError ? error.reason : error;
+    }
+    return undefined;
+  }
+
+  it('rejects any edit of a base exercise', () => {
+    const base = exercise('Dips', { origin: 'base' });
+    expect(
+      reasonOf(() =>
+        checkExerciseUpdate(
+          base,
+          { name: 'Dips lestés', type: 'strength', muscleGroup: 'chest' },
+          UNUSED,
+        ),
+      ),
+    ).toBe('base_read_only');
+  });
+
+  it('allows a type change on a never-used exercise', () => {
+    expect(() =>
+      checkExerciseUpdate(
+        custom,
+        { name: 'Curl araignée', type: 'cardio', muscleGroup: null },
+        UNUSED,
+      ),
+    ).not.toThrow();
+  });
+
+  it('rejects a type change once the exercise has been used', () => {
+    expect(
+      reasonOf(() =>
+        checkExerciseUpdate(
+          custom,
+          { name: 'Curl araignée', type: 'cardio', muscleGroup: null },
+          used,
+        ),
+      ),
+    ).toBe('type_locked');
+  });
+
+  it('keeps the name and the group editable on a used exercise', () => {
+    expect(() =>
+      checkExerciseUpdate(
+        custom,
+        { name: 'Curl araignée haltères', type: 'strength', muscleGroup: 'shoulders' },
+        used,
+      ),
+    ).not.toThrow();
   });
 });
