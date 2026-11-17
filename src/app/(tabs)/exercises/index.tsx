@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from '@/features/navigation/placeholder-screen';
+import { ExerciseLibraryScreen } from '@/features/exercises/exercise-library-screen';
 
 export default function ExercisesScreen() {
-  return <PlaceholderScreen title="Exercices" />;
+  return <ExerciseLibraryScreen />;
 }
