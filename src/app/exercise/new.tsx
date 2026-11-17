@@ -1,22 +1,9 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, Text } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 
+import { NewExerciseScreen } from '@/features/exercises/exercise-form-screen';
 import type { ExerciseCreationParams } from '@/features/exercises/filter';
-import { PlaceholderScreen } from '@/features/navigation/placeholder-screen';
 
-// Placeholder: the creation form has its own ticket.
-export default function NewExerciseScreen() {
-  const router = useRouter();
+export default function NewExerciseRoute() {
   const params = useLocalSearchParams<ExerciseCreationParams>();
-  return (
-    <PlaceholderScreen title="Nouvel exercice">
-      <Text className="font-sans text-caption text-text-secondary">{JSON.stringify(params)}</Text>
-      <Pressable
-        accessibilityRole="button"
-        onPress={() => router.back()}
-        className="min-h-touch justify-center self-start">
-        <Text className="font-sans-medium text-label text-text-secondary">Annuler</Text>
-      </Pressable>
-    </PlaceholderScreen>
-  );
+  return <NewExerciseScreen params={params} />;
 }

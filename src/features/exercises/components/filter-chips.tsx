@@ -29,8 +29,9 @@ export function FilterChips({ value, onChange }: Props) {
             accessibilityState={{ selected }}
             onPress={() => onChange(filter)}
             hitSlop={6}
-            className={`h-8 justify-center rounded-full border px-3.5 ${
-              selected ? 'border-text bg-text' : 'border-border active:opacity-60'
+            // `active:` on every state: adding or removing it after mount remounts the chip.
+            className={`h-8 justify-center rounded-full border px-3.5 active:opacity-60 ${
+              selected ? 'border-text bg-text' : 'border-border'
             }`}>
             <Text
               className={`font-sans-medium text-label ${

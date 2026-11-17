@@ -1,4 +1,4 @@
-import type { Exercise, ExerciseUsage, WorkoutUsage } from './model';
+import type { Exercise, ExerciseUsage, MuscleGroup, WorkoutUsage } from './model';
 import { normalizeName } from './normalize';
 
 const collator = new Intl.Collator('fr');
@@ -76,4 +76,37 @@ export function sortWorkoutUsages(workouts: readonly WorkoutUsage[]): WorkoutUsa
       collator.compare(a.programName, b.programName) ||
       collator.compare(a.workoutName, b.workoutName),
   );
+}
+
+/** Name, type and group of an exercise, as written by creation and edition. */
+export type ExerciseInput = { name: string } & (
+  { type: 'strength'; muscleGroup: MuscleGroup } | { type: 'cardio'; muscleGroup: null }
+);
+
+export type ExerciseWriteErrorReason = 'not_found' | 'base_read_only' | 'type_locked' | 'duplicate';
+
+/** Write refused by a library rule. `duplicate`: the exercise that already has the name. */
+export class ExerciseWriteError extends Error {
+  constructor(
+    readonly reason: ExerciseWriteErrorReason,
+    readonly duplicate?: Exercise,
+  ) {
+    super(`Écriture d’exercice refusée : ${reason}`);
+    this.name = 'ExerciseWriteError';
+  }
+}
+
+/**
+ * Checks an edit before writing it, whatever the UI allowed: base exercises are read-only and
+ * the type can't change once the exercise has been used.
+ */
+export function checkExerciseUpdate(
+  current: Exercise,
+  input: ExerciseInput,
+  usage: ExerciseUsage,
+): void {
+  if (current.origin === 'base') throw new ExerciseWriteError('base_read_only');
+  if (input.type !== current.type && isTypeLocked(usage)) {
+    throw new ExerciseWriteError('type_locked');
+  }
 }
