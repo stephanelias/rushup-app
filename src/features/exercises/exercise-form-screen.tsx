@@ -247,7 +247,7 @@ function FormFrame({ title, save, scrollable = false, children }: FormFrameProps
           importantForAccessibility={save ? 'auto' : 'no-hide-descendants'}
           disabled={!save || save.disabled}
           onPress={save?.onPress}
-          className={`min-h-touch justify-center px-1 ${save ? 'active:opacity-60' : 'opacity-0'}`}>
+          className={`min-h-touch justify-center px-1 active:opacity-60 ${save ? '' : 'opacity-0'}`}>
           <Text
             className={`font-sans-semibold text-body ${
               save && !save.disabled ? 'text-accent' : 'text-disabled'

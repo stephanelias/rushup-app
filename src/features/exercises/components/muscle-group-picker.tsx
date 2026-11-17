@@ -28,8 +28,8 @@ export function MuscleGroupPicker({ value, onChange }: Props) {
                 accessibilityRole="radio"
                 accessibilityState={{ checked: selected }}
                 onPress={() => onChange(group)}
-                className={`min-h-touch flex-1 justify-center rounded-button border px-3 ${
-                  selected ? 'border-text bg-text' : 'border-border active:opacity-60'
+                className={`min-h-touch flex-1 justify-center rounded-button border px-3 active:opacity-60 ${
+                  selected ? 'border-text bg-text' : 'border-border'
                 }`}>
                 <Text
                   className={`text-center text-label ${

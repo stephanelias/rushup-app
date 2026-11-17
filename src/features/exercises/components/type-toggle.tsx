@@ -30,9 +30,9 @@ export function TypeToggle({ value, onChange, locked = false }: Props) {
             accessibilityState={{ checked: selected, disabled: locked }}
             disabled={locked}
             onPress={() => onChange(type)}
-            className={`min-h-10 flex-1 items-center justify-center rounded-sm ${background} ${
-              locked || selected ? '' : 'active:opacity-60'
-            }`}>
+            // `active:` on every state (no effect while disabled): adding or removing it after
+            // mount remounts the option.
+            className={`min-h-10 flex-1 items-center justify-center rounded-sm active:opacity-60 ${background}`}>
             <Text className={`text-label ${text}`}>{EXERCISE_TYPE_LABELS[type]}</Text>
           </Pressable>
         );
